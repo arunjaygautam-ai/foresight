@@ -1,14 +1,12 @@
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.API_KEY;
-
 export const getStudyAdvice = async (query: string): Promise<string> => {
-  if (!apiKey) {
+  if (!process.env.API_KEY) {
     return "AI Service is currently unavailable. Please contact us directly.";
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: query,
