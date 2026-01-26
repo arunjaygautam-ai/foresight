@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Briefcase, CheckCircle, Upload, GraduationCap, Award, MapPin } from 'lucide-react';
 
@@ -11,15 +12,24 @@ const TutorForm: React.FC = () => {
     setIsLoading(true);
     setError("");
 
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
 
-    // WEB3FORMS CONFIGURATION
-    // 1. Go to https://web3forms.com/
-    // 2. Enter your email to get an Access Key
-    // 3. Replace 'YOUR_ACCESS_KEY_HERE' below with your actual key
+    const tutorData = {
+      id: Date.now(),
+      date: new Date().toLocaleString(),
+      fullName: formData.get("Full Name") as string,
+      qualification: formData.get("Qualification") as string,
+      experience: formData.get("Experience") as string,
+      vehicle: formData.get("Vehicle") as string,
+      areas: formData.get("Preferred Areas") as string,
+    };
+
+    // NOTE: To receive emails at arunjaygautam@gmail.com, get a free key from https://web3forms.com/ 
+    // and replace "YOUR_ACCESS_KEY_HERE" with your actual key.
     formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
-    formData.append("subject", "New Tutor Application - Foresight Tuitions");
-    formData.append("from_name", "Foresight Website");
+    formData.append("subject", "New Tutor Application for arunjaygautam@gmail.com");
+    formData.append("from_name", "Lifeline Tuition Website");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -30,9 +40,12 @@ const TutorForm: React.FC = () => {
       const data = await response.json();
 
       if (data.success) {
+        // Save to local storage
+        const existing = JSON.parse(localStorage.getItem('lifeline_tutors') || '[]');
+        localStorage.setItem('lifeline_tutors', JSON.stringify([tutorData, ...existing]));
+        
         setSubmitted(true);
       } else {
-        console.error("Form Error:", data);
         setError("Something went wrong. Please try again.");
       }
     } catch (err) {
@@ -51,7 +64,7 @@ const TutorForm: React.FC = () => {
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Application Sent!</h2>
           <p className="text-gray-600 mb-8">
-            Welcome to the Foresight family. We have received your application via email and will review your profile soon.
+            Welcome to the Lifeline Home Tuition family. We have received your application and will review your profile soon.
           </p>
           <button 
             onClick={() => setSubmitted(false)}
@@ -122,29 +135,12 @@ const TutorForm: React.FC = () => {
 
               <div className="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
                   <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                      <MapPin className="w-5 h-5 mr-2 text-indigo-600" /> Preferences & CV
+                      <MapPin className="w-5 h-5 mr-2 text-indigo-600" /> Preferences
                   </h4>
                   <div className="space-y-6">
                     <div>
                         <label htmlFor="preferred-areas" className="block text-sm font-medium text-gray-700">Preferred Areas in Patna</label>
                         <input type="text" name="Preferred Areas" id="preferred-areas" placeholder="e.g., Anisabad, Phulwari, Gardanibagh" className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Upload Resume (Optional)</label>
-                        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-400 transition-colors cursor-pointer bg-white">
-                            <div className="space-y-1 text-center">
-                                <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                                <div className="flex text-sm text-gray-600 justify-center">
-                                    <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
-                                        <span>Upload a file</span>
-                                        <input id="file-upload" name="attachment" type="file" className="sr-only" accept="image/*,.pdf,.doc,.docx" />
-                                    </label>
-                                    <p className="pl-1">or drag and drop</p>
-                                </div>
-                                <p className="text-xs text-gray-500">PDF, DOC up to 5MB</p>
-                            </div>
-                        </div>
                     </div>
                   </div>
               </div>

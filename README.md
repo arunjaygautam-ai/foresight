@@ -1,20 +1,28 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
-# Run and deploy your AI Studio app
+# Lifeline Tuition Bureau - Anisabad, Patna
 
-This contains everything you need to run your app locally.
+A high-performance, SEO-optimized React website for Lifeline Tuition Bureau.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1oEgUEvaj8KH8ZdO6iNsvX6GZpTt16sKW
+## 🚀 How to Deploy
 
-## Run Locally
+### 1. Setup Gemini AI (Optional but Recommended)
+To enable the AI Assistant:
+- Get an API Key from [Google AI Studio](https://aistudio.google.com/).
+- Add it to your hosting provider as an environment variable named `API_KEY`.
 
-**Prerequisites:**  Node.js
+### 2. Setup Email Notifications
+To receive student/tutor inquiries in your email:
+- Visit [Web3Forms](https://web3forms.com/) and enter your email (`arunjaygautam@gmail.com`).
+- You will receive an Access Key via email.
+- Open `components/StudentForm.tsx` and `components/TutorForm.tsx` and replace `YOUR_ACCESS_KEY_HERE` with your key.
 
+### 3. Deploying to Vercel/Netlify
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Node Version:** 18+
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🛠 Features
+- **AI Assistant:** Powered by Gemini 3 Flash to answer parent queries.
+- **Admin Dashboard:** View inquiries directly on the site (stored locally in browser).
+- **SEO Optimized:** Structured data for Google Search (JSON-LD).
+- **Responsive:** Mobile-first design for parents on the go.

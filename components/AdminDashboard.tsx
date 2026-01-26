@@ -1,5 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
-import { X, Trash2, Download } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 import { StudentInquiry, TutorApplication } from '../types';
 
 interface AdminDashboardProps {
@@ -14,8 +15,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      const storedStudents = localStorage.getItem('foresight_students');
-      const storedTutors = localStorage.getItem('foresight_tutors');
+      const storedStudents = localStorage.getItem('lifeline_students');
+      const storedTutors = localStorage.getItem('lifeline_tutors');
       
       if (storedStudents) setStudents(JSON.parse(storedStudents));
       if (storedTutors) setTutors(JSON.parse(storedTutors));
@@ -25,13 +26,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose }) => {
   const deleteStudent = (id: number) => {
     const updated = students.filter(s => s.id !== id);
     setStudents(updated);
-    localStorage.setItem('foresight_students', JSON.stringify(updated));
+    localStorage.setItem('lifeline_students', JSON.stringify(updated));
   };
 
   const deleteTutor = (id: number) => {
     const updated = tutors.filter(t => t.id !== id);
     setTutors(updated);
-    localStorage.setItem('foresight_tutors', JSON.stringify(updated));
+    localStorage.setItem('lifeline_tutors', JSON.stringify(updated));
   };
 
   if (!isOpen) return null;
@@ -44,7 +45,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose }) => {
         <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Admin Dashboard</h2>
-            <p className="text-sm text-gray-500">View local inquiries stored in this browser.</p>
+            <p className="text-sm text-gray-500">View recent form inquiries submitted on this device.</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-200 rounded-full transition-colors">
             <X className="w-6 h-6 text-gray-600" />
@@ -72,7 +73,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose }) => {
           {activeTab === 'students' ? (
             <div className="overflow-x-auto">
               {students.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">No student inquiries found.</div>
+                <div className="text-center py-12 text-gray-500">No student inquiries found yet. Submissions also go to your email.</div>
               ) : (
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
@@ -110,7 +111,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose }) => {
           ) : (
             <div className="overflow-x-auto">
               {tutors.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">No tutor applications found.</div>
+                <div className="text-center py-12 text-gray-500">No tutor applications found yet. Submissions also go to your email.</div>
               ) : (
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">

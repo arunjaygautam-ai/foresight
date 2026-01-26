@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Send, CheckCircle, User, BookOpen, MapPin, Phone } from 'lucide-react';
 
@@ -11,15 +12,26 @@ const StudentForm: React.FC = () => {
     setIsLoading(true);
     setError("");
 
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
     
-    // WEB3FORMS CONFIGURATION
-    // 1. Go to https://web3forms.com/
-    // 2. Enter your email to get an Access Key
-    // 3. Replace 'YOUR_ACCESS_KEY_HERE' below with your actual key
+    // Save locally for Admin Dashboard
+    const studentData = {
+      id: Date.now(),
+      date: new Date().toLocaleString(),
+      studentName: formData.get("Student Name") as string,
+      parentName: formData.get("Parent Name") as string,
+      classCategory: formData.get("Class") as string,
+      board: formData.get("Board") as string,
+      subjects: formData.get("Subjects") as string,
+      address: formData.get("Address") as string,
+      mobile: formData.get("Mobile") as string,
+    };
+
+    // NOTE: To receive emails at arunjaygautam@gmail.com, get a free key from https://web3forms.com/ 
     formData.append("access_key", "YOUR_ACCESS_KEY_HERE"); 
-    formData.append("subject", "New Student Inquiry - Foresight Tuitions");
-    formData.append("from_name", "Foresight Website");
+    formData.append("subject", "New Student Inquiry for Lifeline Home Tuition");
+    formData.append("from_name", "Lifeline Website");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -30,9 +42,10 @@ const StudentForm: React.FC = () => {
       const data = await response.json();
 
       if (data.success) {
+        const existing = JSON.parse(localStorage.getItem('lifeline_students') || '[]');
+        localStorage.setItem('lifeline_students', JSON.stringify([studentData, ...existing]));
         setSubmitted(true);
       } else {
-        console.error("Form Error:", data);
         setError("Something went wrong. Please call us directly.");
       }
     } catch (err) {
@@ -51,7 +64,7 @@ const StudentForm: React.FC = () => {
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Request Received!</h2>
           <p className="text-gray-600 mb-8">
-            Thank you for choosing Foresight. We have received your details via email and will contact you shortly.
+            Thank you for choosing Lifeline Home Tuition. We have received your details and our team will contact you shortly.
           </p>
           <button 
             onClick={() => setSubmitted(false)}
@@ -72,7 +85,7 @@ const StudentForm: React.FC = () => {
             Student Registration
           </h2>
           <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
-            Find the perfect mentor for your academic journey. Fill in the details below to get started.
+            Find the perfect mentor in Patna for your academic journey. Fill in the details below to get started.
           </p>
         </div>
 
@@ -82,16 +95,15 @@ const StudentForm: React.FC = () => {
                 <BookOpen className="w-8 h-8 mr-3 opacity-80" />
                 New Student Enrollment
              </h3>
-             <p className="text-brand-100 mt-2">Expert tutors for all classes & subjects in Patna.</p>
+             <p className="text-brand-100 mt-2">Expert tutors for all classes & subjects in Anisabad.</p>
           </div>
 
           <div className="px-6 py-8 sm:px-10">
             <form className="space-y-8" onSubmit={handleSubmit}>
               
-              {/* Personal Info Section */}
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
                   <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                      <User className="w-5 h-5 mr-2 text-brand-500" /> Personal Details
+                      <User className="w-5 h-5 mr-2 text-brand-500" /> Student Profile
                   </h4>
                   <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                     <div>
@@ -105,7 +117,6 @@ const StudentForm: React.FC = () => {
                   </div>
               </div>
 
-              {/* Academic Info Section */}
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
                   <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                       <BookOpen className="w-5 h-5 mr-2 text-brand-500" /> Academic Requirements
@@ -138,7 +149,6 @@ const StudentForm: React.FC = () => {
                   </div>
               </div>
 
-              {/* Contact Info Section */}
               <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
                   <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                       <MapPin className="w-5 h-5 mr-2 text-brand-500" /> Contact & Location
@@ -178,13 +188,10 @@ const StudentForm: React.FC = () => {
                       </span>
                   ) : (
                       <span className="flex items-center">
-                          Request Tutor Now <Send className="ml-2 h-5 w-5" />
+                          Submit Request <Send className="ml-2 h-5 w-5" />
                       </span>
                   )}
                 </button>
-                <p className="mt-4 text-center text-sm text-gray-500">
-                    By registering, you agree to be contacted by Foresight Tuition Bureau.
-                </p>
               </div>
             </form>
           </div>

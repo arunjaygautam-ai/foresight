@@ -1,11 +1,12 @@
+
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Sparkles } from 'lucide-react';
+import { X, Send, Sparkles } from 'lucide-react';
 import { getStudyAdvice } from '../services/geminiService';
 
 const AiAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{text: string, isBot: boolean}[]>([
-    { text: "Hi! I'm the Foresight AI Assistant. Ask me about our tuition services in Anisabad!", isBot: true }
+    { text: "Hi! I'm the Lifeline Assistant. Ask me about our home and online tuition services in Anisabad!", isBot: true }
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +18,7 @@ const AiAssistant: React.FC = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isOpen]);
 
   const handleSend = async () => {
     if (!inputValue.trim()) return;
@@ -49,7 +50,7 @@ const AiAssistant: React.FC = () => {
           <div className="bg-brand-600 p-4 flex justify-between items-center text-white">
             <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4" />
-                <h3 className="font-medium">Foresight Assistant</h3>
+                <h3 className="font-medium">Lifeline Assistant</h3>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:bg-brand-700 p-1 rounded">
               <X className="w-4 h-4" />

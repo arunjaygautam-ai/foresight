@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Menu, X, GraduationCap } from 'lucide-react';
 import { SectionId } from '../types';
@@ -27,8 +28,8 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center cursor-pointer" onClick={() => handleNavClick('home')}>
-            <GraduationCap className="h-8 w-8 text-brand-600" />
-            <span className="ml-2 text-xl font-bold text-gray-900">Foresight<span className="text-brand-600">Tuitions</span></span>
+            < GraduationCap className="h-8 w-8 text-brand-600" />
+            <span className="ml-2 text-xl font-bold text-gray-900">Lifeline <span className="text-brand-600 font-extrabold">Tuition Bureau</span></span>
           </div>
           
           {/* Desktop Menu */}
@@ -58,13 +59,13 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
+        <div className="md:hidden bg-white border-t border-gray-200 shadow-xl">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link) => (
               <button
                 key={link.value}
                 onClick={() => handleNavClick(link.value)}
-                className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 block w-full text-left px-3 py-2 rounded-md text-base font-medium"
+                className="text-gray-600 hover:bg-brand-50 hover:text-brand-700 block w-full text-left px-3 py-2 rounded-md text-base font-medium"
               >
                 {link.label}
               </button>
